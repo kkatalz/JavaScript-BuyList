@@ -1,0 +1,333 @@
+body {
+  background-color: silver;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+main {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+button {
+  position: relative;
+}
+
+button[data-tooltip] {
+  position: relative;
+}
+
+button[data-tooltip] {
+  position: relative;
+}
+
+button[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: purple;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 12px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear, bottom 0.2s ease-out;
+}
+
+button[data-tooltip]:hover::before {
+  visibility: visible;
+  opacity: 1;
+  bottom: 100%;
+}
+
+button[data-tooltip]:not(:hover)::before {
+  bottom: 0;
+  opacity: 0;
+  transition: visibility 1s, opacity 0.2s linear, bottom 0.2s ease-out;
+}
+
+.main-block {
+  display: flex;
+  gap: 35px;
+  width: 90%;
+}
+
+.buy-list-badge {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  margin: 0;
+  padding: 10px;
+  background-color: blueviolet;
+  color: antiquewhite;
+  font-weight: bold;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  transition: all 0.5s;
+  font-size: 18px;
+  height: 20px;
+}
+.buy-list-badge p,
+.for-print p {
+  font-size: 14px;
+  color: lightgray;
+}
+.buy-list-badge-collapsible {
+  display: none;
+}
+
+.buy-list-badge:hover {
+  height: 80px;
+  background-color: blue;
+}
+.buy-list-badge:hover .buy-list-badge-collapsible {
+  display: block;
+}
+.for-print {
+  display: none;
+  font-size: 18px;
+}
+@media print {
+  .buy-list-badge {
+    display: none;
+  }
+  .for-print {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    margin: 0;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border: 1px solid purple;
+    background: white;
+  }
+}
+
+/* First block */
+
+.block-first {
+  background-color: white;
+  height: 280px;
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.items-name-form {
+  margin: 15px;
+  max-width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.items-name-input {
+  width: 100%;
+  padding: 10px 20px;
+  padding-right: 0;
+  font-size: 18px;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  outline: none;
+}
+
+.items-name-button {
+  width: 100px;
+  padding: 10px 20px;
+  margin-left: -5px;
+
+  background-color: rgb(59, 108, 241);
+  border-color: rgb(59, 108, 241);
+  border-width: 1px;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom: 4px solid rgba(25, 36, 160, 0.555);
+}
+
+.grid-items {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  border: 1px solid lightgray;
+  border-right-width: 0;
+  border-left-width: 0;
+  padding: 12px;
+}
+.grid-items h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.grid-items:nth-of-type(2) {
+  border-top-width: 0 !important;
+}
+.grid-items:nth-of-type(3) {
+  border: none !important;
+}
+
+.grid-items :nth-child(2) {
+  display: flex;
+  justify-content: center;
+}
+.grid-items :nth-child(3) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.grid-items-title {
+  color: rgba(0, 0, 0, 0.7);
+}
+.grid-items-amount {
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-weight: bold;
+  background-color: lightgray;
+  color: rgba(0, 0, 0, 0.7);
+  height: min-content;
+}
+
+.grid-items-not-bought {
+  padding: 10px 20px !important;
+  border-radius: 2px;
+  background-color: rgb(235, 232, 232);
+
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.7);
+  border: 1px solid lightgray;
+  border-bottom-width: 4px;
+}
+
+.button-change-number {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-weight: bold;
+  color: white;
+}
+
+.red {
+  background: rgb(218, 47, 47);
+  border-bottom: 2px solid red;
+}
+.pale-red {
+  background-color: rgba(218, 47, 47, 0.7);
+  border-bottom: 2px solid rgb(218, 47, 47);
+}
+
+.green {
+  background: greenyellow;
+  border-bottom: 1px solid green;
+}
+
+.space-between-buttons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.delete-item {
+  margin-left: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(218, 47, 47);
+}
+
+.grid-items-input {
+  width: 115px;
+  outline-color: dodgerblue;
+  padding: 5px;
+}
+
+/* Second block */
+.block-second {
+  background-color: white;
+  height: 245x;
+  width: 520px;
+  border-radius: 6px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 500px) {
+  main {
+    padding-bottom: 60px;
+  }
+  .main-block {
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+  }
+  .block-second {
+    width: 100%;
+  }
+}
+
+.block-second h1 {
+  padding: 20px 20px;
+  margin: 0;
+}
+
+.block-second-items {
+  padding: 20px;
+  border: 1px solid lightgray;
+  border-left: none;
+  border-right: none;
+}
+
+.block-second-items-without-border-bottom {
+  border-bottom: none;
+}
+
+.product-item {
+  background-color: lightgray;
+  display: inline-block;
+  padding: 8px;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.crossed {
+  text-decoration: line-through;
+}
+
+.amount {
+  background-color: rgba(240, 93, 39, 0.993);
+  border-radius: 10px;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}

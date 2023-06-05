@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head lang="uk">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Page</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css" />
+  </head>
+
+  <body>
+    <main>
+      <section class="main-block">
+        <!-- Container 1 -->
+        <div class="block-first">
+          <!-- Form input -->
+          <form class="items-name-form">
+            <input
+              class="items-name-input"
+              type="text"
+              placeholder="Назва товару"
+            />
+            <button
+              data-tooltip="Додати товар"
+              class="items-name-button"
+              type="submit"
+            >
+              Додати
+            </button>
+          </form>
+          <!-- Grid items -->
+          <!-- tomatoes -->
+          <div class="grid-items">
+            <h3 class="crossed grid-items-title">Помідори</h3>
+            <div>
+              <div class="grid-items-amount">2</div>
+            </div>
+            <div>
+              <h3 class="grid-items-not-bought">Не куплено</h3>
+            </div>
+          </div>
+          <!-- Cookies -->
+          <div class="grid-items">
+            <h3 class="grid-items-title">Печиво</h3>
+            <div class="space-between-buttons">
+              <button
+                class="button-change-number red"
+                data-tooltip="Зменшити кількість товарів"
+                type="button"
+              >
+                -
+              </button>
+              <div class="grid-items-amount">2</div>
+              <button
+                class="button-change-number green"
+                type="button"
+                data-tooltip="Збільшити кількість товарів"
+              >
+                +
+              </button>
+            </div>
+
+            <div>
+              <h3 class="grid-items-not-bought">Куплено</h3>
+              <button class="delete-item" data-tooltip="Видалити">x</button>
+            </div>
+          </div>
+
+          <!-- Cheese -->
+          <div class="grid-items">
+            <div><input class="grid-items-input" /></div>
+            <div class="space-between-buttons">
+              <button
+                class="button-change-number pale-red"
+                data-tooltip="Зменшити кількість товарів"
+                type="button"
+              >
+                -
+              </button>
+              <div class="grid-items-amount">1</div>
+              <button
+                class="button-change-number green"
+                data-tooltip="Збільшити кількість товарів"
+                type="button"
+              >
+                +
+              </button>
+            </div>
+
+            <div>
+              <h3 class="grid-items-not-bought">Куплено</h3>
+              <button class="delete-item" data-tooltip="Видалити">x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Container 2 -->
+        <div class="block-second">
+          <h1>Залишилося</h1>
+          <div class="block-second-items">
+            <!-- Items in second block -->
+            <span class="product-item">
+              Печиво
+              <span class="amount">2</span>
+            </span>
+            <span class="product-item">
+              Сир
+              <span class="amount">1</span>
+            </span>
+          </div>
+          <h1>Куплено</h1>
+          <div
+            class="block-second-items block-second-items-without-border-bottom"
+          >
+            <!-- Items in second block -->
+            <span class="product-item crossed">
+              Помідори
+              <span class="amount crossed">2</span>
+            </span>
+          </div>
+        </div>
+      </section>
+      <h2 class="buy-list-badge">
+        Buy List
+
+        <div class="buy-list-badge-collapsible">
+          <p>Created by</p>
+          Zlata Karbovska
+        </div>
+      </h2>
+      <h2 class="for-print">
+        <p>Created by</p>
+        Zlata Karbovska
+      </h2>
+    </main>
+  </body>
+</html>
