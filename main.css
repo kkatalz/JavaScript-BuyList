@@ -208,6 +208,7 @@ button[data-tooltip]:not(:hover)::before {
 }
 
 .grid-items-not-bought {
+  white-space: nowrap;
   padding: 10px 20px !important;
   border-radius: 2px;
   background-color: rgb(235, 232, 232);

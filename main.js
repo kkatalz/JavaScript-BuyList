@@ -1,16 +1,33 @@
-const buyList = document.querySelector(".buy-list");
-
 const form = document.querySelector(".items-name-form");
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   const input = document.querySelector(".items-name-input");
   const inputValue = input.value;
 
-  addToBuyList(inputValue);
-  input.value = "";
+  //check if is not empty
+  if (inputValue.trim() != "") {
+    addToBuyList(inputValue, 1);
+    input.value = "";
+  }
 });
 
-function addToBuyList(itemName) {
+const defaultBuyItems = [
+  {
+    itemName: "Помідори",
+    amount: 1,
+  },
+  {
+    itemName: "Печиво",
+    amount: 2,
+  },
+  {
+    itemName: "Сир",
+    amount: 1,
+  },
+];
+
+function addToBuyList(itemName, amount) {
+  const buyList = document.querySelector(".buy-list");
   // Create the outermost div element with class "grid-items"
   const gridItemsDiv = document.createElement("div");
   gridItemsDiv.classList.add("grid-items");
@@ -34,7 +51,7 @@ function addToBuyList(itemName) {
   // Create the div element with class "grid-items-amount" and innerText "2"
   const gridItemsAmountDiv = document.createElement("div");
   gridItemsAmountDiv.classList.add("grid-items-amount");
-  gridItemsAmountDiv.innerText = 0;
+  gridItemsAmountDiv.innerText = amount;
 
   // Create the second button element with class "button-change-number green" and data-tooltip attribute
   const increaseButton = document.createElement("button");
@@ -52,7 +69,7 @@ function addToBuyList(itemName) {
   const notBoughtDiv = document.createElement("div");
   const notBoughtTitle = document.createElement("h3");
   notBoughtTitle.classList.add("grid-items-not-bought");
-  notBoughtTitle.innerText = "Куплено";
+  notBoughtTitle.innerText = "Не куплено";
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-item");
   deleteButton.setAttribute("data-tooltip", "Видалити");
@@ -71,3 +88,8 @@ function addToBuyList(itemName) {
   // Add the grid-items div to the parent element in the HTML document
   buyList.appendChild(gridItemsDiv);
 }
+
+//task2. Settings
+defaultBuyItems.forEach((buyItem) =>
+  addToBuyList(buyItem.itemName, buyItem.amount)
+);
