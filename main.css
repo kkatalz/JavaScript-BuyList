@@ -10,6 +10,13 @@ main {
   justify-content: center;
   position: relative;
 }
+
+.buy-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 195px;
+}
+
 button {
   position: relative;
 }
