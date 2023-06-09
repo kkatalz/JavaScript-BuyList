@@ -38,6 +38,24 @@ function addToBuyList(itemName, amount) {
   gridItemsTitle.classList.add("grid-items-title");
   gridItemsTitle.innerText = itemName;
 
+  gridItemsTitle.addEventListener("click", () => {
+    if (notBoughtTitle.innerText == "Не куплено") {
+      const inputDiv = document.createElement("div");
+      const input = document.createElement("input");
+      input.classList.add("grid-items-input");
+      inputDiv.appendChild(input);
+
+      gridItemsTitle.replaceWith(inputDiv);
+
+      input.focus();
+      input.addEventListener("blur", () => {
+        console.log("unfocus");
+        gridItemsTitle.innerText = input.value;
+        inputDiv.replaceWith(gridItemsTitle);
+      });
+    }
+  });
+
   // Create the div element with class "space-between-buttons"
   const spaceBetweenButtonsDiv = document.createElement("div");
   spaceBetweenButtonsDiv.classList.add("space-between-buttons");
