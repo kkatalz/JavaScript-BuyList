@@ -8,6 +8,7 @@ form.addEventListener("submit", function (e) {
   if (inputValue.trim() != "") {
     addToBuyList(inputValue, 1);
     input.value = "";
+    input.focus();
   }
 });
 
@@ -71,6 +72,11 @@ function addToBuyList(itemName, amount) {
   notBoughtTitle.classList.add("grid-items-not-bought");
   notBoughtTitle.innerText = "Не куплено";
   const deleteButton = document.createElement("button");
+
+  deleteButton.addEventListener("click", function () {
+    this.parentNode.parentNode.remove();
+  });
+
   deleteButton.classList.add("delete-item");
   deleteButton.setAttribute("data-tooltip", "Видалити");
   deleteButton.innerText = "x";
