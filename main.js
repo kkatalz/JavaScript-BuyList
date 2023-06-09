@@ -71,15 +71,35 @@ function addToBuyList(itemName, amount) {
   const notBoughtTitle = document.createElement("h3");
   notBoughtTitle.classList.add("grid-items-not-bought");
   notBoughtTitle.innerText = "Не куплено";
-  const deleteButton = document.createElement("button");
 
-  deleteButton.addEventListener("click", function () {
-    this.parentNode.parentNode.remove();
+  notBoughtTitle.addEventListener("click", () => {
+    if (notBoughtTitle.innerText == "Не куплено") {
+      notBoughtTitle.innerText = "Куплено";
+      gridItemsTitle.classList.add("crossed");
+      decreaseButton.remove();
+      increaseButton.remove();
+      deleteButton.remove();
+    } else {
+      notBoughtTitle.innerText = "Не куплено";
+      gridItemsTitle.classList.remove("crossed");
+      gridItemsAmountDiv.remove();
+      spaceBetweenButtonsDiv.appendChild(decreaseButton);
+      spaceBetweenButtonsDiv.appendChild(gridItemsAmountDiv);
+      spaceBetweenButtonsDiv.appendChild(increaseButton);
+      notBoughtDiv.appendChild(deleteButton);
+    }
   });
+
+  const deleteButton = document.createElement("button");
 
   deleteButton.classList.add("delete-item");
   deleteButton.setAttribute("data-tooltip", "Видалити");
   deleteButton.innerText = "x";
+  // deleting item
+  deleteButton.addEventListener("click", function () {
+    this.parentNode.parentNode.remove();
+  });
+
   notBoughtDiv.appendChild(notBoughtTitle);
   notBoughtDiv.appendChild(deleteButton);
 
