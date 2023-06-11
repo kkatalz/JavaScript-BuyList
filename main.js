@@ -19,7 +19,7 @@ form.addEventListener("submit", function (e) {
   const input = document.querySelector(".items-name-input");
   const inputValue = input.value;
 
-  //check if is not empty
+  //check if is not empty and item hasn't the same name
   if (
     inputValue.trim() != "" &&
     defaultBuyItems.every(
