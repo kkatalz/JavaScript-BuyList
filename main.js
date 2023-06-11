@@ -15,15 +15,15 @@ form.addEventListener("submit", function (e) {
 const defaultBuyItems = [
   {
     itemName: "Помідори",
-    amount: 1,
+    amount: 10,
   },
   {
     itemName: "Печиво",
-    amount: 2,
+    amount: 20,
   },
   {
     itemName: "Сир",
-    amount: 1,
+    amount: 10,
   },
 ];
 
@@ -72,12 +72,27 @@ function addToBuyList(itemName, amount) {
   gridItemsAmountDiv.classList.add("grid-items-amount");
   gridItemsAmountDiv.innerText = amount;
 
+  //Decrease amount of items until amount!=1
+  decreaseButton.addEventListener("click", () => {
+    if (parseInt(gridItemsAmountDiv.innerText) === 1)
+      decreaseButton.setAttribute("disabled", true);
+    else {
+      gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) - 1;
+    }
+  });
+
   // Create the second button element with class "button-change-number green" and data-tooltip attribute
   const increaseButton = document.createElement("button");
   increaseButton.classList.add("button-change-number", "green");
   increaseButton.setAttribute("data-tooltip", "Збільшити кількість товарів");
   increaseButton.setAttribute("type", "button");
   increaseButton.innerText = "+";
+
+  increaseButton.addEventListener("click", () => {
+    if (parseInt(gridItemsAmountDiv.innerText) === 1)
+      decreaseButton.removeAttribute("disabled");
+    gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) + 1;
+  });
 
   // Append the first button, grid-items-amount div, and second button to the space-between-buttons div
   spaceBetweenButtonsDiv.appendChild(decreaseButton);

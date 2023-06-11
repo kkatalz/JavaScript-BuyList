@@ -3,12 +3,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
+
 main {
   display: flex;
   height: 100vh;
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+button {
+  cursor: pointer;
 }
 
 .buy-list {
@@ -25,7 +30,7 @@ button[data-tooltip] {
   position: relative;
 }
 
-button[data-tooltip] {
+/* button[data-tooltip] {
   position: relative;
 }
 
@@ -56,7 +61,7 @@ button[data-tooltip]:not(:hover)::before {
   bottom: 0;
   opacity: 0;
   transition: visibility 1s, opacity 0.2s linear, bottom 0.2s ease-out;
-}
+} */
 
 .main-block {
   display: flex;
@@ -80,11 +85,13 @@ button[data-tooltip]:not(:hover)::before {
   font-size: 18px;
   height: 20px;
 }
+
 .buy-list-badge p,
 .for-print p {
   font-size: 14px;
   color: lightgray;
 }
+
 .buy-list-badge-collapsible {
   display: none;
 }
@@ -93,17 +100,21 @@ button[data-tooltip]:not(:hover)::before {
   height: 80px;
   background-color: blue;
 }
+
 .buy-list-badge:hover .buy-list-badge-collapsible {
   display: block;
 }
+
 .for-print {
   display: none;
   font-size: 18px;
 }
+
 @media print {
   .buy-list-badge {
     display: none;
   }
+
   .for-print {
     display: block;
     position: absolute;
@@ -134,6 +145,7 @@ button[data-tooltip]:not(:hover)::before {
   display: flex;
   flex-wrap: nowrap;
 }
+
 .items-name-input {
   width: 100%;
   padding: 10px 20px;
@@ -174,6 +186,7 @@ button[data-tooltip]:not(:hover)::before {
   border-left-width: 0;
   padding: 12px;
 }
+
 .grid-items h3 {
   margin: 0;
   padding: 0;
@@ -182,6 +195,7 @@ button[data-tooltip]:not(:hover)::before {
 .grid-items:nth-of-type(2) {
   border-top-width: 0 !important;
 }
+
 .grid-items:nth-of-type(3) {
   border: none !important;
 }
@@ -190,6 +204,7 @@ button[data-tooltip]:not(:hover)::before {
   display: flex;
   justify-content: center;
 }
+
 .grid-items :nth-child(3) {
   display: flex;
   justify-content: flex-end;
@@ -198,6 +213,7 @@ button[data-tooltip]:not(:hover)::before {
 .grid-items-title {
   color: rgba(0, 0, 0, 0.7);
 }
+
 .grid-items-amount {
   padding: 5px 10px;
   border-radius: 2px;
@@ -237,7 +253,13 @@ button[data-tooltip]:not(:hover)::before {
 .red {
   background: rgb(218, 47, 47);
   border-bottom: 2px solid red;
+
 }
+
+.red:disabled {
+  background: rgba(218, 47, 47, 0.7)
+}
+
 .pale-red {
   background-color: rgba(218, 47, 47, 0.7);
   border-bottom: 2px solid rgb(218, 47, 47);
@@ -288,11 +310,13 @@ button[data-tooltip]:not(:hover)::before {
   main {
     padding-bottom: 60px;
   }
+
   .main-block {
     flex-direction: column;
     width: 100%;
     padding: 10px;
   }
+
   .block-second {
     width: 100%;
   }
