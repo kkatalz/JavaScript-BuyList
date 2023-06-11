@@ -1,20 +1,35 @@
-const form = document.querySelector(".items-name-form");
+let storedBuyItems = JSON.parse(localStorage.getItem("defaultBuyItems"));
+let defaultBuyItems = [];
 
-const defaultBuyItems = [
-  {
-    itemName: "Помідори",
-    amount: 10,
-  },
-  {
-    itemName: "Печиво",
-    amount: 20,
-  },
-  {
-    itemName: "Сир",
-    amount: 10,
-  },
-];
+if (!storedBuyItems) {
+  defaultBuyItems = [
+    {
+      itemName: "Помідори",
+      amount: 1,
+      bought: false,
+    },
+    {
+      itemName: "Печиво",
+      amount: 1,
+      bought: false,
+    },
+    {
+      itemName: "Сир",
+      amount: 1,
+      bought: false,
+    },
+  ];
+
+  saveToLocalStorage();
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("defaultBuyItems", JSON.stringify(defaultBuyItems));
+}
+
 form.addEventListener("submit", function (e) {
+  const form = document.querySelector(".items-name-form");
+
   e.preventDefault();
   const input = document.querySelector(".items-name-input");
   const inputValue = input.value;
@@ -26,7 +41,7 @@ form.addEventListener("submit", function (e) {
       (item) => item.itemName.toLowerCase() !== inputValue.toLowerCase()
     )
   ) {
-    addToBuyList(inputValue, 1);
+    addToBuyList(inputValue, 1, false);
     input.value = "";
     input.focus();
   } else {
@@ -36,7 +51,7 @@ form.addEventListener("submit", function (e) {
   }
 });
 
-function addToBuyList(itemName, amount) {
+function addToBuyList(itemName, amount, itemBought) {
   let leftItem = addProductToLeftItems(itemName, amount);
   let leftItemAmount = amount;
   let boughtItem;
@@ -45,13 +60,6 @@ function addToBuyList(itemName, amount) {
   // Create the outermost div element with class "grid-items"
   const gridItemsDiv = document.createElement("div");
   gridItemsDiv.classList.add("grid-items");
-
-  const newItemBuyList = {
-    itemName,
-    amount,
-  };
-
-  defaultBuyItems.push(newItemBuyList);
 
   // Create the h3 element with class "grid-items-title"
   const gridItemsTitle = document.createElement("h3");
@@ -74,6 +82,13 @@ function addToBuyList(itemName, amount) {
             (item) => item.itemName.toLowerCase() !== input.value.toLowerCase()
           )
         ) {
+          defaultBuyItems.forEach((item) => {
+            if (item.itemName === gridItemsTitle.innerText) {
+              item.itemName = input.value;
+            }
+          });
+          saveToLocalStorage();
+
           gridItemsTitle.innerText = input.value;
 
           leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
@@ -106,11 +121,18 @@ function addToBuyList(itemName, amount) {
     if (parseInt(gridItemsAmountDiv.innerText) === 1)
       decreaseButton.setAttribute("disabled", true);
     else {
+      defaultBuyItems.forEach((item) => {
+        if (item.itemName === gridItemsTitle.innerText) {
+          item.amount = parseInt(gridItemsAmountDiv.innerText) - 1;
+        }
+      });
       gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) - 1;
 
       const leftItemAmountContainer = leftItem.querySelector(".amount");
       leftItemAmountContainer.innerText = gridItemsAmountDiv.innerText;
       leftItemAmount = gridItemsAmountDiv.innerText;
+
+      saveToLocalStorage();
     }
   });
 
@@ -124,11 +146,18 @@ function addToBuyList(itemName, amount) {
   increaseButton.addEventListener("click", () => {
     if (parseInt(gridItemsAmountDiv.innerText) === 1)
       decreaseButton.removeAttribute("disabled");
+    defaultBuyItems.forEach((item) => {
+      if (item.itemName === gridItemsTitle.innerText) {
+        item.amount = parseInt(gridItemsAmountDiv.innerText) + 1;
+      }
+    });
     gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) + 1;
 
     const leftItemAmountContainer = leftItem.querySelector(".amount");
     leftItemAmountContainer.innerText = gridItemsAmountDiv.innerText;
     leftItemAmount = gridItemsAmountDiv.innerText;
+
+    saveToLocalStorage();
   });
 
   // Append the first button, grid-items-amount div, and second button to the space-between-buttons div
@@ -138,7 +167,8 @@ function addToBuyList(itemName, amount) {
 
   // Create the div element with no class, but containing an h3 element with class "grid-items-not-bought" and a button element with class "delete-item" and data-tooltip attribute
   const notBoughtDiv = document.createElement("div");
-  const notBoughtTitle = document.createElement("h3");
+  const notBoughtTitle = document.createElement("button");
+  notBoughtTitle.setAttribute("data-tooltip", "Купити");
   notBoughtTitle.classList.add("grid-items-not-bought");
   notBoughtTitle.innerText = "Не куплено";
 
@@ -150,7 +180,16 @@ function addToBuyList(itemName, amount) {
       increaseButton.remove();
       deleteButton.remove();
       leftItem.remove();
+      notBoughtTitle.setAttribute("data-tooltip", "Відмінити покупку");
+
       boughtItem = addProductToBoughtItems(itemName, leftItemAmount);
+
+      defaultBuyItems.forEach((item) => {
+        if (item.itemName === gridItemsTitle.innerText) {
+          item.bought = true;
+          itemBought = true;
+        }
+      });
     } else {
       notBoughtTitle.innerText = "Не куплено";
       gridItemsTitle.classList.remove("crossed");
@@ -159,9 +198,20 @@ function addToBuyList(itemName, amount) {
       spaceBetweenButtonsDiv.appendChild(gridItemsAmountDiv);
       spaceBetweenButtonsDiv.appendChild(increaseButton);
       notBoughtDiv.appendChild(deleteButton);
+      notBoughtTitle.setAttribute("data-tooltip", "Купити");
+
       boughtItem.remove();
       leftItem = addProductToLeftItems(itemName, leftItemAmount);
+
+      defaultBuyItems.forEach((item) => {
+        if (item.itemName === gridItemsTitle.innerText) {
+          item.bought = false;
+          itemBought = false;
+        }
+      });
     }
+
+    saveToLocalStorage();
   });
 
   const deleteButton = document.createElement("button");
@@ -173,6 +223,12 @@ function addToBuyList(itemName, amount) {
   deleteButton.addEventListener("click", function () {
     this.parentNode.parentNode.remove();
     leftItem.remove();
+
+    defaultBuyItems = defaultBuyItems.filter(
+      (item) => item.itemName !== leftItem.childNodes[0].nodeValue
+    );
+
+    saveToLocalStorage();
   });
 
   notBoughtDiv.appendChild(notBoughtTitle);
@@ -188,12 +244,34 @@ function addToBuyList(itemName, amount) {
 
   // Add the grid-items div to the parent element in the HTML document
   buyList.appendChild(gridItemsDiv);
+
+  const newItemBuyList = {
+    itemName,
+    amount,
+    bought: itemBought,
+  };
+
+  defaultBuyItems.push(newItemBuyList);
+  saveToLocalStorage();
+
+  defaultBuyItems.forEach((item) => {
+    if (itemBought === true && item.itemName === gridItemsTitle.innerText) {
+      notBoughtTitle.innerText = "Куплено";
+      gridItemsTitle.classList.add("crossed");
+      decreaseButton.remove();
+      increaseButton.remove();
+      deleteButton.remove();
+      leftItem.remove();
+      boughtItem = addProductToBoughtItems(itemName, leftItemAmount);
+    }
+  });
 }
 
 //task2. Settings
-defaultBuyItems.forEach((buyItem) =>
-  addToBuyList(buyItem.itemName, buyItem.amount)
-);
+storedBuyItems.forEach((buyItem) => {
+  if (buyItem.itemName !== "")
+    addToBuyList(buyItem.itemName, buyItem.amount, buyItem.bought);
+});
 
 function addProductToSecondBlock(containerId, productName, amount) {
   const container = document.getElementById(containerId);
