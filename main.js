@@ -1,16 +1,4 @@
 const form = document.querySelector(".items-name-form");
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const input = document.querySelector(".items-name-input");
-  const inputValue = input.value;
-
-  //check if is not empty
-  if (inputValue.trim() != "") {
-    addToBuyList(inputValue, 1);
-    input.value = "";
-    input.focus();
-  }
-});
 
 const defaultBuyItems = [
   {
@@ -26,6 +14,27 @@ const defaultBuyItems = [
     amount: 10,
   },
 ];
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const input = document.querySelector(".items-name-input");
+  const inputValue = input.value;
+
+  //check if is not empty
+  if (
+    inputValue.trim() != "" &&
+    defaultBuyItems.every(
+      (item) => item.itemName.toLowerCase() !== inputValue.toLowerCase()
+    )
+  ) {
+    addToBuyList(inputValue, 1);
+    input.value = "";
+    input.focus();
+  } else {
+    alert(
+      "Оберіть ім'я, що до цього не використовувалося та мало хоча б одну літеру!"
+    );
+  }
+});
 
 function addToBuyList(itemName, amount) {
   let leftItem = addProductToLeftItems(itemName, amount);
@@ -36,6 +45,13 @@ function addToBuyList(itemName, amount) {
   // Create the outermost div element with class "grid-items"
   const gridItemsDiv = document.createElement("div");
   gridItemsDiv.classList.add("grid-items");
+
+  const newItemBuyList = {
+    itemName,
+    amount,
+  };
+
+  defaultBuyItems.push(newItemBuyList);
 
   // Create the h3 element with class "grid-items-title"
   const gridItemsTitle = document.createElement("h3");
@@ -53,10 +69,18 @@ function addToBuyList(itemName, amount) {
 
       input.focus();
       input.addEventListener("blur", () => {
-        gridItemsTitle.innerText = input.value;
-        inputDiv.replaceWith(gridItemsTitle);
+        if (
+          defaultBuyItems.every(
+            (item) => item.itemName.toLowerCase() !== input.value.toLowerCase()
+          )
+        ) {
+          gridItemsTitle.innerText = input.value;
 
-        leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
+          leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
+        } else {
+          alert("Оберіть ім'я, що до цього не використовувалося!");
+        }
+        inputDiv.replaceWith(gridItemsTitle);
       });
     }
   });
