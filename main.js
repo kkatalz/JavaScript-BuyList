@@ -27,10 +27,10 @@ function saveToLocalStorage() {
   localStorage.setItem("defaultBuyItems", JSON.stringify(defaultBuyItems));
 }
 
-form.addEventListener("submit", function (e) {
-  const form = document.querySelector(".items-name-form");
+const form = document.querySelector(".items-name-form");
 
-  e.preventDefault();
+form.addEventListener("submit", function (e) {
+  e.preventDefault(); //to prevent webpage restart after submit
   const input = document.querySelector(".items-name-input");
   const inputValue = input.value;
 
@@ -51,6 +51,7 @@ form.addEventListener("submit", function (e) {
   }
 });
 
+//ADD NEW ITEMS+ CHANGE ITEM'S NAME+ DELETE ITEM
 function addToBuyList(itemName, amount, itemBought) {
   let leftItem = addProductToLeftItems(itemName, amount);
   let leftItemAmount = amount;
@@ -75,25 +76,31 @@ function addToBuyList(itemName, amount, itemBought) {
 
       gridItemsTitle.replaceWith(inputDiv);
 
+      //TO CHANGE ITEM'S NAME
       input.focus();
       input.addEventListener("blur", () => {
-        if (
-          defaultBuyItems.every(
-            (item) => item.itemName.toLowerCase() !== input.value.toLowerCase()
-          )
-        ) {
-          defaultBuyItems.forEach((item) => {
-            if (item.itemName === gridItemsTitle.innerText) {
-              item.itemName = input.value;
-            }
-          });
-          saveToLocalStorage();
+        if (input.value.trim() !== "") {
+          if (
+            //check if this item already doesnt exist
+            defaultBuyItems.every(
+              (item) =>
+                item.itemName.toLowerCase() !== input.value.toLowerCase()
+            )
+          ) {
+            defaultBuyItems.forEach((item) => {
+              if (item.itemName === gridItemsTitle.innerText) {
+                item.itemName = input.value;
+              }
+            });
+            saveToLocalStorage();
 
-          gridItemsTitle.innerText = input.value;
+            gridItemsTitle.innerText = input.value;
 
-          leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
-        } else {
-          alert("Оберіть ім'я, що до цього не використовувалося!");
+            //change text inn second right block
+            leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
+          } else {
+            alert("Оберіть ім'я, що до цього не використовувалося!");
+          }
         }
         inputDiv.replaceWith(gridItemsTitle);
       });
@@ -182,7 +189,10 @@ function addToBuyList(itemName, amount, itemBought) {
       leftItem.remove();
       notBoughtTitle.setAttribute("data-tooltip", "Відмінити покупку");
 
-      boughtItem = addProductToBoughtItems(itemName, leftItemAmount);
+      boughtItem = addProductToBoughtItems(
+        gridItemsTitle.innerText,
+        leftItemAmount
+      );
 
       defaultBuyItems.forEach((item) => {
         if (item.itemName === gridItemsTitle.innerText) {
@@ -201,7 +211,10 @@ function addToBuyList(itemName, amount, itemBought) {
       notBoughtTitle.setAttribute("data-tooltip", "Купити");
 
       boughtItem.remove();
-      leftItem = addProductToLeftItems(itemName, leftItemAmount);
+      leftItem = addProductToLeftItems(
+        gridItemsTitle.innerText,
+        leftItemAmount
+      );
 
       defaultBuyItems.forEach((item) => {
         if (item.itemName === gridItemsTitle.innerText) {
@@ -214,6 +227,7 @@ function addToBuyList(itemName, amount, itemBought) {
     saveToLocalStorage();
   });
 
+  //TO DELETE ITEM
   const deleteButton = document.createElement("button");
 
   deleteButton.classList.add("delete-item");
@@ -234,13 +248,10 @@ function addToBuyList(itemName, amount, itemBought) {
   notBoughtDiv.appendChild(notBoughtTitle);
   notBoughtDiv.appendChild(deleteButton);
 
-  // Append the child elements to their respective parent elements
+  // Append the child elements to their parent elements
   gridItemsDiv.appendChild(gridItemsTitle);
   gridItemsDiv.appendChild(spaceBetweenButtonsDiv);
   gridItemsDiv.appendChild(notBoughtDiv);
-
-  // Add the necessary attributes and innerText to the elements as described in the HTML markup
-  // none needed in this case
 
   // Add the grid-items div to the parent element in the HTML document
   buyList.appendChild(gridItemsDiv);
