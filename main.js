@@ -28,6 +28,10 @@ const defaultBuyItems = [
 ];
 
 function addToBuyList(itemName, amount) {
+  let leftItem = addProductToLeftItems(itemName, amount);
+  let leftItemAmount = amount;
+  let boughtItem;
+
   const buyList = document.querySelector(".buy-list");
   // Create the outermost div element with class "grid-items"
   const gridItemsDiv = document.createElement("div");
@@ -49,9 +53,10 @@ function addToBuyList(itemName, amount) {
 
       input.focus();
       input.addEventListener("blur", () => {
-        console.log("unfocus");
         gridItemsTitle.innerText = input.value;
         inputDiv.replaceWith(gridItemsTitle);
+
+        leftItem.childNodes[0].nodeValue = gridItemsTitle.innerText;
       });
     }
   });
@@ -78,6 +83,10 @@ function addToBuyList(itemName, amount) {
       decreaseButton.setAttribute("disabled", true);
     else {
       gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) - 1;
+
+      const leftItemAmountContainer = leftItem.querySelector(".amount");
+      leftItemAmountContainer.innerText = gridItemsAmountDiv.innerText;
+      leftItemAmount = gridItemsAmountDiv.innerText;
     }
   });
 
@@ -92,6 +101,10 @@ function addToBuyList(itemName, amount) {
     if (parseInt(gridItemsAmountDiv.innerText) === 1)
       decreaseButton.removeAttribute("disabled");
     gridItemsAmountDiv.innerText = parseInt(gridItemsAmountDiv.innerText) + 1;
+
+    const leftItemAmountContainer = leftItem.querySelector(".amount");
+    leftItemAmountContainer.innerText = gridItemsAmountDiv.innerText;
+    leftItemAmount = gridItemsAmountDiv.innerText;
   });
 
   // Append the first button, grid-items-amount div, and second button to the space-between-buttons div
@@ -112,6 +125,8 @@ function addToBuyList(itemName, amount) {
       decreaseButton.remove();
       increaseButton.remove();
       deleteButton.remove();
+      leftItem.remove();
+      boughtItem = addProductToBoughtItems(itemName, leftItemAmount);
     } else {
       notBoughtTitle.innerText = "Не куплено";
       gridItemsTitle.classList.remove("crossed");
@@ -120,6 +135,8 @@ function addToBuyList(itemName, amount) {
       spaceBetweenButtonsDiv.appendChild(gridItemsAmountDiv);
       spaceBetweenButtonsDiv.appendChild(increaseButton);
       notBoughtDiv.appendChild(deleteButton);
+      boughtItem.remove();
+      leftItem = addProductToLeftItems(itemName, leftItemAmount);
     }
   });
 
@@ -131,6 +148,7 @@ function addToBuyList(itemName, amount) {
   // deleting item
   deleteButton.addEventListener("click", function () {
     this.parentNode.parentNode.remove();
+    leftItem.remove();
   });
 
   notBoughtDiv.appendChild(notBoughtTitle);
@@ -152,3 +170,25 @@ function addToBuyList(itemName, amount) {
 defaultBuyItems.forEach((buyItem) =>
   addToBuyList(buyItem.itemName, buyItem.amount)
 );
+
+function addProductToSecondBlock(containerId, productName, amount) {
+  const container = document.getElementById(containerId);
+  const productItem = document.createElement("span");
+  productItem.classList.add("product-item");
+  if (containerId === "bought-items") productItem.classList.add("crossed");
+  productItem.innerHTML =
+    productName +
+    `<span class='amount ${containerId === "bought-items" ? "crossed" : ""}'>` +
+    amount +
+    "</span>";
+  container.appendChild(productItem);
+
+  return productItem;
+}
+
+function addProductToLeftItems(productName, amount) {
+  return addProductToSecondBlock("left-items", productName, amount);
+}
+function addProductToBoughtItems(productName, amount) {
+  return addProductToSecondBlock("bought-items", productName, amount);
+}

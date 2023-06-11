@@ -332,6 +332,10 @@ button[data-tooltip]:not(:hover)::before {
   border: 1px solid lightgray;
   border-left: none;
   border-right: none;
+
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .block-second-items-without-border-bottom {
